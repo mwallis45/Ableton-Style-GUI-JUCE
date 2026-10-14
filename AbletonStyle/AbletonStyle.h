@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    AbletonStyle.h
+    StyleSheet.h
     Created: 1 Oct 2026 12:00:00pm
     Author:  Michael Wallis
 
@@ -115,21 +115,20 @@ namespace juce {
         /** Sets the new Theme and updates all JUCE colour IDs. */
         void setTheme(Theme newTheme);
 
+        //==============================================================================
         void drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPosProportional, float rotaryStartAngle, float rotaryEndAngle, Slider& slider) override;
 
+        //==============================================================================
         void drawToggleButton(Graphics& g, ToggleButton& button, bool shouldDrawButtonAsHighlighted, bool shouldDrawButtonAsDown) override;
-    
+        
+        //==============================================================================
         void drawComboBox(Graphics& g, int width, int height, bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, ComboBox& comboBox) override;
 
         void drawPopupMenuBackgroundWithOptions(Graphics& g, int width, int height, const PopupMenu::Options&) override;
 
         void drawPopupMenuItemWithOptions(Graphics&, const Rectangle<int>& area, bool isHighlighted, const PopupMenu::Item& item, const PopupMenu::Options&) override;
 
-        Label* createComboBoxTextBox(ComboBox& box) override;
-
         void positionComboBoxText(ComboBox& box, Label& label) override;
-
-        Font getComboBoxFont(ComboBox& box) override;
 
     private:
         Theme currentTheme{ Dark };

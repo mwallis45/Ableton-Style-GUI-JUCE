@@ -1,14 +1,14 @@
 /*
   ==============================================================================
 
-    AbletonStyle.cpp
+    StyleSheet.cpp
     Created: 1 Oct 2026 12:00:00pm
     Author:  Michael Wallis
 
   ==============================================================================
 */
 
-#include "AbletonStyle.h"
+#include "StyleSheet.h"
 
 namespace juce {
 
@@ -111,51 +111,76 @@ namespace juce {
         }
     }
 
+    //==============================================================================
 
+    /**
+     * @brief Dail Slider Override for Defualt Ableton Style.
+     *
+     * Uses the basic drawRotarySlider override to apply the shape and colours of an Ableton Dail.
+     * This is different to the Pan style dial.
+     *
+     * @param g
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @param sliderPos
+     * @param rotaryStartAngle
+     * @param rotaryEndAngle
+     * @param slider
+     */
     void DefaultAbletonStyle::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos, float rotaryStartAngle, float rotaryEndAngle, Slider& slider)
     {
-        auto radius = (juce::jmin(width, height) / 4.0f) - 2.0f;
-        auto centreX = (float)x + (float)width * 0.5f;
-        auto centreY = (float)y + (float)height * 0.5f;
+        // Define local Areas
+        const float labelHeight = slider.getHeight() * 0.20f;
+        const float valueHeight = slider.getHeight() * 0.20f;
+
+        auto bounds = slider.getLocalBounds();
+        auto labelBounds = bounds.removeFromTop(labelHeight);
+        auto valueBounds = bounds.removeFromBottom(valueHeight);
+        auto dialArea = bounds;
+
+        // Define funtional variables
+        auto radius = (jmin(width, height) / 4.0f) - 2.0f;
+        auto centreX = dialArea.getCentreX();
+        auto centreY = dialArea.getCentreY();
+        auto angleSpacer = MathConstants<float>::pi / 16.0f;
         auto currentAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
-        auto angleSpacer = juce::MathConstants<float>::pi / 24.0f;
 
-        auto shiftY = (float)y + (float)height * 0.25f;
+        // Text
+        g.setColour(slider.findColour(textIconOff));
+        g.setFont(FontOptions(10.0f, Font::plain));
+        // Name
+        String formattedName = slider.getName();
+        g.drawText(formattedName, labelBounds, Justification::centred);
+        // Value
+        String formattedValue = slider.getTextFromValue(slider.getValue());
+        g.drawText(formattedValue, valueBounds, Justification::centred);
 
-        // Basic Track Path
-        juce::Path trackPath;
+        // Default Track Path
+        Path trackPath;
         float maxStartAngle = std::min(rotaryEndAngle, currentAngle + angleSpacer);
         trackPath.addCentredArc(centreX, centreY, radius + 2.0f, radius + 2.0f, 0.0f, maxStartAngle, rotaryEndAngle, true);
         g.setColour(slider.findColour(line));
-        g.strokePath(trackPath, juce::PathStrokeType(2.0f));
+        g.strokePath(trackPath, PathStrokeType(2.0f));
 
         // Active Track Path
-        juce::Path valuePath;
+        Path valuePath;
         float maxEndAngle = std::max(rotaryStartAngle, currentAngle - angleSpacer);
         valuePath.addCentredArc(centreX, centreY, radius + 2.0f, radius + 2.0f, 0.0f, rotaryStartAngle, maxEndAngle, true);
         g.setColour(slider.findColour(controlOnVariant2));
-        g.strokePath(valuePath, juce::PathStrokeType(2.0f));
+        g.strokePath(valuePath, PathStrokeType(2.0f));
 
         // Line
         juce::Path pointer;
         pointer.startNewSubPath(centreX, centreY);
         pointer.lineTo(centreX + (radius + 2.0f) * std::sin(currentAngle), centreY - (radius + 2.0f) * std::cos(currentAngle));
         g.setColour(slider.findColour(line));
-        g.strokePath(pointer, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+        g.strokePath(pointer, PathStrokeType(2.0f, PathStrokeType::curved, PathStrokeType::rounded));
         
-        // Name Text
-        g.setColour(slider.findColour(textIconOff));
-        g.setFont(juce::FontOptions(12.0f, juce::Font::plain));
-
-        auto labelBounds = juce::Rectangle<float>(x, y, width, height * 0.25);
-        g.drawText(slider.getName(), labelBounds, juce::Justification::centred);
-
-        // Value Text
-        juce::String formattedValue = slider.getTextFromValue(slider.getValue());
-        auto valueBounds = juce::Rectangle<float>(x, centreY + shiftY, width, height * 0.25);
-        g.drawText(formattedValue, valueBounds, juce::Justification::centred);
     }
 
+    //==============================================================================
 
     /** 
      * @brief Toggle Button Override for Ableton Style.
@@ -180,97 +205,116 @@ namespace juce {
         g.fillRect(bounds);
 
         g.setColour(isOn ? button.findColour(textIconOn) : button.findColour(textIconOff));
-        g.setFont(juce::FontOptions(10.0f, juce::Font::plain));
+        g.setFont(FontOptions(10.0f, Font::plain));
 
-        g.drawText(button.getButtonText(), bounds, juce::Justification::centred);
+        g.drawText(button.getButtonText(), bounds, Justification::centred);
     }
 
+    //==============================================================================
+    /**
+     * @brief Combo Box Override for Defualt Ableton Style.
+     *
+     * Uses the basic drawComboBox override to apply the shape and colours of an 
+     * Ableton Drop down.
+     *
+     * @param g
+     * @param width
+     * @param height
+     * @param isButtonDown
+     * @param buttonX
+     * @param buttonY
+     * @param buttonW
+     * @param buttonH
+     * @param comboBox
+     */
     void DefaultAbletonStyle::drawComboBox(Graphics& g, int width, int height, bool isButtonDown, int buttonX, int buttonY, int buttonW, int buttonH, ComboBox& comboBox) {
+        // Boarder and Background
         auto boarder = comboBox.getLocalBounds();
-        auto bounds = comboBox.getLocalBounds().toFloat().reduced(1.0f);
-
         g.setColour(comboBox.findColour(controlBackground));
         g.fillRect(boarder);
 
+        auto bounds = boarder.reduced(1);
         g.setColour(comboBox.findColour(controlOff));
         g.fillRect(bounds);
 
+        // Text
+        g.setColour(comboBox.findColour(textIconOff));
+        g.setFont(FontOptions(10.0f, Font::plain));
+        g.drawText(comboBox.getText(), bounds.reduced(2,0), Justification::left);
+
+        // Drop Down Triangle
         juce::Path triangle;
-        auto arrowArea = juce::Rectangle<float>(buttonX + (buttonW * 0.5f), buttonY, buttonW * 0.5f, buttonH);
-        auto arrowSize = 4.0f; // Width/Height of the triangle
+        auto arrowSize = buttonH * 0.25f; // Width/Height of the triangle
+        auto pi = MathConstants<float>::pi;
+        auto arrowArea = Rectangle<float>(buttonX + buttonW - buttonH, buttonY, buttonH, buttonH);
         auto centreX = arrowArea.getCentreX();
         auto centreY = arrowArea.getCentreY();
 
-        // Define downward pointing triangle vertices
-        triangle.addTriangle(centreX - arrowSize, centreY - (arrowSize * 0.5f),  // Top Left
-            centreX + arrowSize, centreY - (arrowSize * 0.5f),  // Top Right
-            centreX, centreY + (arrowSize * 0.5f)); // Bottom Point
+        triangle.addTriangle(centreX - (arrowSize * cos(pi/6)), centreY - (arrowSize * sin(pi/6)),  // Top Left
+            centreX + (arrowSize * cos(pi/6)), centreY - (arrowSize * sin(pi/6)),  // Top Right
+            centreX, centreY + arrowSize); // Bottom Point
 
-        g.setColour(comboBox.findColour(textIconOff));
         g.fillPath(triangle);
-
-        g.setFont(FontOptions(10.0f, Font::plain));
-        g.drawText(comboBox.getText(), bounds.reduced(2, 0), juce::Justification::left);
     }
 
+    /** 
+     * @brief Background of PopupMenu
+     * 
+     * Redures the background before items for selection have been added ontop.
+     * 
+     * @param g
+     * @param width
+     * @param height
+     * @param options
+     */
     void DefaultAbletonStyle::drawPopupMenuBackgroundWithOptions(Graphics& g, int width, int height, const PopupMenu::Options& options)
     {
-        g.fillAll(findColour(controlBackground));
+        g.fillAll(findColour(controlOff));
 
         g.setColour(findColour(controlOff));
-        g.fillRect(juce::Rectangle<int>(width, height).reduced(1));
+        g.fillRect(Rectangle<int>(width, height).reduced(1));
     }
 
+    /**
+     * @brief Popup Menu tiles
+     * 
+     * @param g
+     * @param area
+     * @param isHighlighted
+     * @param item
+     * @param options
+     */
     void DefaultAbletonStyle::drawPopupMenuItemWithOptions(Graphics& g, const Rectangle<int>& area, bool isHighlighted, const PopupMenu::Item& item, const PopupMenu::Options& options)
     {
-        if (isHighlighted && item.isEnabled)
-        {
-            g.setColour(findColour(controlOnVariant));
-            g.fillRect(area);
-        }
-        else
-        {
-            g.setColour(findColour(controlOff));
-            g.fillRect(area);
-        }
+        // Background
+        g.setColour((isHighlighted && item.isEnabled) ? findColour(controlOnVariant) : findColour(controlOff));
+        g.fillRect(area);
 
-        if (item.isSeparator)
-        {
-            g.setColour(findColour(controlBorder));
-            g.fillRect(area.reduced(5, 0).withHeight(1));
-            return;
-        }
-
-        juce::Colour textColor = isHighlighted ? findColour(textIconOn) : findColour(textIconOff);
-        if (!item.isEnabled)
+        Colour textColor = isHighlighted ? findColour(textIconOn) : findColour(textIconOff);
+        if (!item.isEnabled) {
             textColor = textColor.withAlpha(0.4f);
+        }
 
         g.setColour(textColor);
         g.setFont(FontOptions(10.0f, Font::plain));
 
-        g.drawText(item.text, area.reduced(2,0), Justification::left, false);
+        g.drawText(item.text, area, Justification::left, false);
     }
 
-    Label* DefaultAbletonStyle::createComboBoxTextBox(ComboBox& box)
-    {
-        // Returns the default Label, but you can configure justification here if needed
-        return new Label(String(), String());
-    }
-
+    /**
+    * @brief Removes the text drop down
+    * 
+    * Sets the bounds of the label to zero to hide label. Text label is generated in draw function
+    * 
+    * @param box
+    * @param label
+    */
     void DefaultAbletonStyle::positionComboBoxText(ComboBox& box, Label& label)
     {
-        auto bounds = box.getLocalBounds();
-
-        const int arrowWidth = box.getHeight();
-
         label.setBounds(0, 0, 0, 0);
     }
 
-    Font DefaultAbletonStyle::getComboBoxFont(ComboBox& box)
-    {
-        return FontOptions(10.0f, Font::plain);
-    }
-
+    //==============================================================================
     /**
     * @brief Toggle Button Override for Pre Listen Style.
     *
@@ -294,11 +338,12 @@ namespace juce {
         g.fillEllipse(bounds);
 
         g.setColour(isOn ? button.findColour(textIconOn) : button.findColour(textIconOff));
-        g.setFont(juce::FontOptions(10.0f, juce::Font::plain));
+        g.setFont(FontOptions(10.0f, Font::plain));
 
-        g.drawText(button.getButtonText(), bounds, juce::Justification::centred);
+        g.drawText(button.getButtonText(), bounds, Justification::centred);
     }
 
+    //==============================================================================
     void AbletonTextSlider::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos, float rotaryStartAngle, float rotaryEndAngle, Slider& slider)
     {
         auto boarder = slider.getLocalBounds().toFloat();
@@ -311,21 +356,29 @@ namespace juce {
         g.fillRect(bounds);
 
         // Slide
-        auto sliderBounds = juce::Rectangle<float>(bounds.getX(), bounds.getY(), bounds.getWidth() * sliderPos, bounds.getHeight());
+        auto sliderBounds = Rectangle<float>(bounds.getX(), bounds.getY(), bounds.getWidth() * sliderPos, bounds.getHeight());
         g.setColour(slider.findColour(controlOnVariant2));
         g.fillRect(sliderBounds);
 
         // Text
         g.setColour(slider.findColour(textIconOff));
-        g.setFont(juce::FontOptions(12.0f, juce::Font::plain));
-        juce::String formattedValue = slider.getTextFromValue(slider.getValue());
-        g.drawText(formattedValue, bounds, juce::Justification::centred);
+        g.setFont(FontOptions(12.0f, Font::plain));
+        String formattedValue = slider.getTextFromValue(slider.getValue());
+        g.drawText(formattedValue, bounds, Justification::centred);
     }
 
+    //==============================================================================
     void AbletonPanSlider::drawRotarySlider(Graphics& g, int x, int y, int width, int height, float sliderPos, float rotaryStartAngle, float rotaryEndAngle, Slider& slider)
     {
         auto bounds = juce::Rectangle<float>((float)x, (float)y, (float)width, (float)height);
 
+        // -------------------------------------------------------------------
+        // 0. STRUCTURAL LAYOUT SLICES
+        // Divide component height into 3 clean vertical sections:
+        // Top 20% = Name Label
+        // Middle 60% = Dial + Triangle
+        // Bottom 20% = Value Text
+        // -------------------------------------------------------------------
         const float labelHeight = bounds.getHeight() * 0.20f;
         const float valueHeight = bounds.getHeight() * 0.15f;
 
@@ -341,38 +394,42 @@ namespace juce {
         const float arrowSize = 4.0f; // Width/Height of triangle
 
         // Radius takes up space minus stroke and top triangle room
-        auto radius = (juce::jmin(dialArea.getWidth(), dialArea.getHeight()) * 0.5f) - arrowSize - strokeThickness - 2.0f;
+        auto radius = (jmin(dialArea.getWidth(), dialArea.getHeight()) * 0.5f) - arrowSize - strokeThickness - 2.0f;
 
         // Angles
         auto currentAngle = rotaryStartAngle + sliderPos * (rotaryEndAngle - rotaryStartAngle);
         auto centerAngle = rotaryStartAngle + 0.5f * (rotaryEndAngle - rotaryStartAngle);
-        auto angleSpacer = juce::MathConstants<float>::pi / 24.0f;
+        auto angleSpacer = MathConstants<float>::pi / 24.0f;
 
         const float arcRadius = radius + 2.0f;
 
+        // -------------------------------------------------------------------
+        // 1. INACTIVE BACKGROUND TRACKS
+        // -------------------------------------------------------------------
         g.setColour(slider.findColour(line));
 
         // Left inactive segment
         float leftTrackEnd = std::min(centerAngle, currentAngle - angleSpacer);
         if (leftTrackEnd > rotaryStartAngle)
         {
-            juce::Path leftTrack;
+            Path leftTrack;
             leftTrack.addCentredArc(centreX, centreY, arcRadius, arcRadius, 0.0f, rotaryStartAngle, leftTrackEnd, true);
-            g.strokePath(leftTrack, juce::PathStrokeType(strokeThickness));
+            g.strokePath(leftTrack, PathStrokeType(strokeThickness));
         }
 
         // Right inactive segment
         float rightTrackStart = std::max(centerAngle, currentAngle + angleSpacer);
         if (rightTrackStart < rotaryEndAngle)
         {
-            juce::Path rightTrack;
+            Path rightTrack;
             rightTrack.addCentredArc(centreX, centreY, arcRadius, arcRadius, 0.0f, rightTrackStart, rotaryEndAngle, true);
-            g.strokePath(rightTrack, juce::PathStrokeType(strokeThickness));
+            g.strokePath(rightTrack, PathStrokeType(strokeThickness));
         }
 
+        // 2. ACTIVE TRACK (Fills from center outward)
         if (std::abs(currentAngle - centerAngle) > 0.001f)
         {
-            juce::Path activePath;
+            Path activePath;
 
             if (currentAngle < centerAngle)
                 activePath.addCentredArc(centreX, centreY, arcRadius, arcRadius, 0.0f, currentAngle, centerAngle, true);
@@ -380,13 +437,14 @@ namespace juce {
                 activePath.addCentredArc(centreX, centreY, arcRadius, arcRadius, 0.0f, centerAngle, currentAngle, true);
 
             g.setColour(slider.findColour(controlOnVariant2));
-            g.strokePath(activePath, juce::PathStrokeType(strokeThickness));
+            g.strokePath(activePath, PathStrokeType(strokeThickness));
         }
 
+        // CENTER TRIANGLE (Positioned directly above the arc, pointing down)
         const float triangleGap = 2.0f; // Gap between arc and tip of triangle
         const float tipY = centreY - arcRadius - triangleGap; // Bottom tip sits right above the arc
 
-        juce::Path triangle;
+        Path triangle;
         triangle.addTriangle(centreX - arrowSize, tipY - arrowSize,  // Top Left
             centreX + arrowSize, tipY - arrowSize,  // Top Right
             centreX, tipY);            // Bottom Tip (Points to arc)
@@ -395,20 +453,20 @@ namespace juce {
         g.setColour(isNotCentered ? slider.findColour(controlOnVariant2) : slider.findColour(line));
         g.fillPath(triangle);
 
-        juce::Path pointer;
+        // Line
+        Path pointer;
         pointer.startNewSubPath(centreX, centreY);
         pointer.lineTo(centreX + arcRadius * std::sin(currentAngle), centreY - arcRadius * std::cos(currentAngle));
         g.setColour(slider.findColour(line));
-        g.strokePath(pointer, juce::PathStrokeType(1.0f, juce::PathStrokeType::curved, juce::PathStrokeType::rounded));
+        g.strokePath(pointer, PathStrokeType(1.0f, PathStrokeType::curved, PathStrokeType::rounded));
 
+        // TEXT LABELS
         g.setColour(slider.findColour(textIconOff));
-        g.setFont(juce::FontOptions(11.0f, juce::Font::plain));
-
+        g.setFont(FontOptions(11.0f, Font::plain));
         // Top Name Label
-        g.drawText(slider.getName(), topBounds, juce::Justification::centred);
-
+        g.drawText(slider.getName(), topBounds, Justification::centred);
         // Bottom Value Text
-        juce::String formattedValue = slider.getTextFromValue(slider.getValue());
-        g.drawText(formattedValue, bottomBounds, juce::Justification::centred);
+        String formattedValue = slider.getTextFromValue(slider.getValue());
+        g.drawText(formattedValue, bottomBounds.reduced(0,4), Justification::centredBottom);
     }
 }
