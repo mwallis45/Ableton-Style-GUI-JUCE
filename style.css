@@ -1,0 +1,234 @@
+/* FONTS */
+/* ------------------------------------- */
+/* REGULAR */
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Rg.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Rg\ It.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* LIGHT */
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Lt.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Lt\ It.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+/* SEMI BOLD */
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Sb.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Sb\ It.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* BOLD */
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Bd.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Bd\ It.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* EXTRA BOLD */
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57 Monospace Sc Eb.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Eb\ It.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+
+/* COLOUR SCHEME */
+/* ------------------------------------- */
+:root {
+    --primary-colour: #aae1ec;
+    --secondary-colour: #55bbec;
+    --trinary-colour: #5588ec;
+    --alt-primary-colour: #aaece1;
+    --alt-secondary-colour: #55ecbbff;
+    --alt-trinary-colour: #55ec88;
+    --bg-main: #eeeeee;
+    --bg-card: #cccccc;
+    --text-main: #202020;
+    --text-muted: #404040;
+    --border-color: #606060;
+}
+
+[data-theme="dark"] {
+    --primary-colour: #5588ec;
+    --secondary-colour: #55bbec;
+    --trinary-colour: #aae1ec;
+    --alt-primary-colour: #55ec88;
+    --alt-secondary-colour: #55ecbbff;
+    --alt-trinary-colour: #aaece1;
+    --bg-main: #202020;
+    --bg-card: #404040;
+    --text-main: #eeeeee;
+    --text-muted: #cccccc;
+    --border-color: #aaaaaa;
+}
+
+
+/* STYLE */
+/* ------------------------------------- */
+/* Header */
+.top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--secondary-colour);
+    color: var(--text-main);
+    padding: 0.75rem 2rem;
+    box-shadow: 0 2px 8px var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.top-bar-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-title {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 800;
+    font-size: 2rem;
+
+    background-color: var(--secondary-colour);
+    color: var(--primary-colour);
+    transition: all 0.2s ease;
+}
+
+.home-button {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--bg-card);
+
+    display: inline-block;
+    text-decoration: none;
+
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.home-button:hover {
+    background-color: var(--bg-card);
+}
+
+.theme-toggle-btn {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 500;
+    font-size: 0.875rem;
+
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--bg-card);
+
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.theme-toggle-btn:hover {
+    background-color: var(--bg-card);
+}
+
+/* Body */
+body {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 300;
+    background-color: var(--bg-main);
+    color: var(--main-color);
+    margin: 40px;
+    
+    transition: all 0.2s ease;
+}
+
+.doc-card {
+    background-color: var(--bg-main);
+    border-radius: 2px;
+    padding: 2rem;
+    transition: all 0.2s ease;
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-colour);
+}
+
+.author-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+}
+
+h2 {
+    color: var(--trinary-colour);
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.5rem 0;
+    border-bottom: 1px solid var(--trinary-colour);
+    padding-bottom: 0.25rem;
+}
+
+ul {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 300;
+    color: var(--text-main);
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+p {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 300;
+    color: var(--text-main);
+}
