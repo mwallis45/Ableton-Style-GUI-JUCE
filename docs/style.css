@@ -1,32 +1,32 @@
 /* FONTS */
 /* ------------------------------------- */
-/* REGULAR */
-@font-face {
-    font-family: 'NK57-Monospace';
-    src: url('fonts/NK57\ Monospace\ Sc\ Rg.otf') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'NK57-Monospace';
-    src: url('fonts/NK57\ Monospace\ Sc\ Rg\ It.otf') format('opentype');
-    font-weight: 400;
-    font-style: italic;
-}
-
 /* LIGHT */
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Lt.otf') format('opentype');
-    font-weight: 300;
+    font-weight: 1;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Lt\ It.otf') format('opentype');
-    font-weight: 300;
+    font-weight: 1;
+    font-style: italic;
+}
+
+/* REGULAR */
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Rg.otf') format('opentype');
+    font-weight: 2;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'NK57-Monospace';
+    src: url('fonts/NK57\ Monospace\ Sc\ Rg\ It.otf') format('opentype');
+    font-weight: 2;
     font-style: italic;
 }
 
@@ -34,14 +34,14 @@
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Sb.otf') format('opentype');
-    font-weight: 600;
+    font-weight: 3;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Sb\ It.otf') format('opentype');
-    font-weight: 600;
+    font-weight: 3;
     font-style: italic;
 }
 
@@ -49,14 +49,14 @@
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Bd.otf') format('opentype');
-    font-weight: 700;
+    font-weight: 4;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Bd\ It.otf') format('opentype');
-    font-weight: 700;
+    font-weight: 4;
     font-style: italic;
 }
 
@@ -64,14 +64,14 @@
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57 Monospace Sc Eb.otf') format('opentype');
-    font-weight: 800;
+    font-weight: 5;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'NK57-Monospace';
     src: url('fonts/NK57\ Monospace\ Sc\ Eb\ It.otf') format('opentype');
-    font-weight: 800;
+    font-weight: 5;
     font-style: italic;
 }
 
@@ -119,8 +119,8 @@
     justify-content: space-between;
     background-color: var(--secondary-colour);
     color: var(--text-main);
+    box-shadow: 0px 2px 8px var(--border-color);
     padding: 0.75rem 2rem;
-    box-shadow: 0 2px 8px var(--border-color);
     transition: all 0.2s ease;
 }
 
@@ -132,7 +132,7 @@
 
 .site-title {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 800;
+    font-weight: 5;
     font-size: 2rem;
 
     background-color: var(--secondary-colour);
@@ -142,7 +142,7 @@
 
 .home-button {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 500;
+    font-weight: 2;
     font-size: 0.875rem;
 
     background-color: var(--bg-main);
@@ -163,7 +163,7 @@
 
 .theme-toggle-btn {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 500;
+    font-weight: 2;
     font-size: 0.875rem;
 
     background-color: var(--bg-main);
@@ -182,25 +182,72 @@
 /* Body */
 body {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 300;
+    font-weight: 2;
     background-color: var(--bg-main);
     color: var(--main-color);
-    margin: 40px;
+    margin: 0px;
     
-    transition: all 0.2s ease;
-}
-
-.doc-card {
-    background-color: var(--bg-main);
-    border-radius: 2px;
-    padding: 2rem;
     transition: all 0.2s ease;
 }
 
 h1 {
     font-size: 2rem;
+    font-weight: 5;
     margin-bottom: 0.5rem;
     color: var(--secondary-colour);
+}
+
+h2 {
+    color: var(--trinary-colour);
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 4;
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.5rem 0;
+    border-bottom: 1px solid var(--trinary-colour);
+    padding-bottom: 0.25rem;
+}
+
+h3 {
+    color: var(--trinary-colour);
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 3;
+    font-size: 1.25rem;
+    margin: 1.5rem 0rem 0.5rem 1rem;
+    padding-bottom: 0.25rem;
+}
+
+h4 {
+    color: var(--trinary-colour);
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 2;
+    font-size: 1.25rem;
+    margin: 1.5rem 0rem 0.5rem 1rem;
+    padding-bottom: 0.25rem;
+}
+
+p {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 2;
+    color: var(--text-main);
+}
+
+ul {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 2;
+    color: var(--text-main);
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Style changes */
+
+.doc-card {
+    background-color: var(--bg-main);
+    border-radius: 2px;
+    padding: 2rem;
+    margin: 0rem 40px;
+
+    transition: all 0.2s ease;
 }
 
 .author-subtitle {
@@ -209,26 +256,52 @@ h1 {
     transition: all 0.2s ease;
 }
 
-h2 {
-    color: var(--trinary-colour);
+.inline-code {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 600;
-    font-size: 1.25rem;
-    margin: 1.5rem 0 0.5rem 0;
-    border-bottom: 1px solid var(--trinary-colour);
-    padding-bottom: 0.25rem;
+    font-weight: 1;
+    color: var(--text-muted);
+    background-color: var(--bg-card);
 }
 
-ul {
+.info-text {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 300;
-    color: var(--text-main);
-    margin-left: 1rem;
-    margin-bottom: 1rem;
+    font-weight: 2;
+    color: var(--text-muted);
+    margin: 0rem 0rem 0rem 0.5rem;
 }
 
-p {
+.quotes {
     font-family: 'NK57-Monospace', monospace;
-    font-weight: 300;
+    font-weight: 1;
+    color: var(--text-muted);
+    background-color: var(--bg-main);
+    margin: 0rem 0rem 0rem 0.5rem;
+}
+
+.text-bold {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 5;
+    color: var(--text-muted);
+    background-color: var(--bg-main);
+}
+
+.link-button {
+    font-family: 'NK57-Monospace', monospace;
+    font-weight: 2;
+    font-size: 1rem;
+
+    background-color: var(--bg-main);
     color: var(--text-main);
+    border: 1px solid var(--bg-card);
+
+    display: inline-block;
+    text-decoration: none;
+
+    padding: 0.4rem 0.9rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.link-button:hover {
+    color: var(--secondary-colour);
 }
